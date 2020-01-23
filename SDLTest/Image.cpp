@@ -26,7 +26,7 @@ bool Image::Initialize()
 void Image::Update(float deltaTime)
 {
   //debugging
-  int speed = 20;
+  float speed = 200 * deltaTime;
   if (m_game.Input.leftDown) {
     m_position.x -= speed;
   }

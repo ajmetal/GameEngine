@@ -8,7 +8,7 @@
 
 #include "Image.h"
 #include "Text.h"
-#include "FpsText.h"
+#include "DebugText.h"
 #include "Camera.h"
 #include "Game.h"
 
@@ -40,16 +40,16 @@ int main(int argc, char *argv[])
   cache.FormatTexturesToScreen(game.GetRenderer(), game.GetScreen());
 
   //create GameObjects
-  Image* background = new Image(game, cache, "background");
+  //Image* background = new Image(game, cache, "background");
   Image * box = new Image(game, cache, "default");
-  FpsText* fpsText = new FpsText(game, cache, "chocolate");
+  DebugText* fpsText = new DebugText(game, cache, "chocolate");
   //Text* inputText = new Text(game, cache, "chocolate");
-  Camera* camera = new Camera(game, 0, 0, WIDTH, HEIGHT);
+  //Camera* camera = new Camera(game, 0, 0, WIDTH, HEIGHT);
 
   //add GameObjects to the game
-  game.AddObject(background);
+  //game.AddObject(background);
   game.AddObject(box);
-  game.AddObject(camera);
+  //game.AddObject(camera);
   game.AddObject(fpsText);
   //game.AddObject(inputText, 0, 16);
 

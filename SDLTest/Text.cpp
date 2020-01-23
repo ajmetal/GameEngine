@@ -29,7 +29,12 @@ bool Text::Render(SDL_Renderer* renderer)
   m_renderRect.x = m_position.x;
   int advance = 0;
   for (auto & it : m_text) {
-    LetterData * data = &m_fontData[it - ' '];
+    LetterData * data;
+    if (it == '\n') {
+      m_renderRect.y += 11;
+      continue;
+    }
+    data = &m_fontData[it - ' '];
     const SDL_Rect srcRect = {
       data->pack_x, data->pack_y, data->width, data->height
     };

@@ -170,7 +170,7 @@
     <ClInclude Include="BitmapFont.h" />
     <ClInclude Include="Cache.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="FpsText.h" />
+    <ClInclude Include="DebugText.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Image.h" />
@@ -182,7 +182,7 @@
     <ClCompile Include="BitmapFont.cpp" />
     <ClCompile Include="Cache.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="FpsText.cpp" />
+    <ClCompile Include="DebugText.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Image.cpp" />

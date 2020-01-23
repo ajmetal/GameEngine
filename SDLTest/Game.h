@@ -46,9 +46,9 @@ private:
   std::vector<GameObject*> m_activeObjects;
   std::vector<GameObject*> m_inactiveObjects;
   //std::chrono::time_point<std::chrono::high_resolution_clock> m_previous;
-  std::chrono::milliseconds m_lastTime;
-  std::chrono::milliseconds m_lag;
-  std::chrono::milliseconds m_msPerFrame;
+  Uint32 m_lastTime;
+  float m_lag;
+  Uint32 m_msPerFrame;
   //std::vector<Camera*> m_cameras;
   //Camera* m_activeCamera;
   SDL_Surface * m_screen;

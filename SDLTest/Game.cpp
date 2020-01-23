@@ -13,11 +13,11 @@ Game::Game(const int& width, const int& height)
   , m_renderer(nullptr)
   , m_quitting(false)
   , m_scaleFactor(0)
-  , m_lastTime(0ms)
-  , m_lag(0ms)
-  , m_msPerFrame((milliseconds)(1000 / FRAMERATE))
+  , m_lastTime(0)
+  , m_lag(0.0f)
+  , m_msPerFrame(1000 / FRAMERATE)
 { 
-  m_lastTime = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch());
+  //m_lastTime = SDL_GetTicks();//duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch());
 }
 
 bool Game::Initialize()
@@ -53,17 +53,23 @@ bool Game::Update()
   if (m_quitting) {
     return true;
   };
+
   ProcessInput();
-  auto now = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch());
-  auto deltaTime = now - m_lastTime;
-  m_lastTime = now;
-  m_lag += deltaTime;
-  while (m_lag >= m_msPerFrame) {
-    for (auto & obj : m_activeObjects) {
-      obj->Update(deltaTime.count());
-    }
-    m_lag -= m_msPerFrame;
+
+  while (!SDL_TICKS_PASSED(SDL_GetTicks(), m_lastTime + m_msPerFrame)) {
+    //wait if we're above our target framerate
+    //printf("waiting\n");
   }
+
+  //clamp deltaTime to a max in case we were debugging
+  float deltaTime = (SDL_GetTicks() - m_lastTime) / 1000.0f;
+  deltaTime = (deltaTime > 0.05f) ? 0.05f : deltaTime;
+  m_lastTime = SDL_GetTicks();
+
+  for (auto & obj : m_activeObjects) {
+    obj->Update(deltaTime);
+  }
+  
   Render();
   return false;
 }
@@ -98,16 +104,24 @@ bool Game::ProcessInput()
       break;
     case SDL_KEYDOWN: {
       switch (event.key.keysym.sym) {
+      case SDLK_ESCAPE:
+        printf("QUITP\n");
+        Quit();
+        break;
       case SDLK_UP:
+        printf("SDLK_UP\n");
         Input.upDown = true;
         break;
       case SDLK_DOWN:
+        printf("SDLK_DOWN\n");
         Input.downDown = true;
         break;
       case SDLK_LEFT:
+        printf("SDLK_LEFT\n");
         Input.leftDown = true;
         break;
       case SDLK_RIGHT:
+        printf("SDLK_RIGHT\n");
         Input.rightDown = true;
         break;
       }
