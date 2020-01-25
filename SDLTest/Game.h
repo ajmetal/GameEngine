@@ -6,7 +6,9 @@
 
 #include <SDL.h>
 
-#include "GameObject.h"
+//#include "GameObject.h"
+#include "Entity.h"
+#include "EntityManager.h"
 
 const int FRAMERATE = 60;
 
@@ -17,14 +19,17 @@ public:
   bool Update();
   void Quit();
   void Rescale(const int& scaleFactor);
-  void AddObject(GameObject * obj, const float& worldX = 0, const float& worldY = 0);
-  ~Game();
+  Entity& AddEntity(const char* name, const float& worldX = 0, const float& worldY = 0);
+  void ListAllEntities();
+  void ListAllComponents();
   SDL_Surface * GetScreen() {
     return m_screen;
   }
   SDL_Renderer* GetRenderer() {
-    return m_renderer;
+    return Game::s_renderer;
   }
+
+  ~Game();
 
   struct {
     bool rightDown;
@@ -37,23 +42,18 @@ public:
     }
   } Input;
 
+  static SDL_Renderer* s_renderer;
+
 protected:
 
 private:
-  bool Render();
   bool ProcessInput();
-
-  std::vector<GameObject*> m_activeObjects;
-  std::vector<GameObject*> m_inactiveObjects;
-  //std::chrono::time_point<std::chrono::high_resolution_clock> m_previous;
-  Uint32 m_lastTime;
-  float m_lag;
-  Uint32 m_msPerFrame;
-  //std::vector<Camera*> m_cameras;
-  //Camera* m_activeCamera;
+  bool Render();
+  EntityManager m_entityManager;
   SDL_Surface * m_screen;
   SDL_Window * m_window;
-  SDL_Renderer* m_renderer;
+  int m_lastTime;
+  int m_msPerFrame;
   int m_scaleFactor;
   int m_width;
   int m_height;

@@ -14,7 +14,7 @@ void GameObject::SetPosition(const float& x, const float& y)
   m_position.y = y;
 }
 
-void GameObject::SetPosition(const Vector2& point)
+void GameObject::SetPosition(const glm::vec2& point)
 {
   m_position = point;
 }

@@ -11,10 +11,12 @@
 #include "DebugText.h"
 #include "Camera.h"
 #include "Game.h"
+#include "Entity.h"
+#include "Transform.h"
 
-const int WIDTH = 1280;
-const int HEIGHT = WIDTH / 16 * 9;
-const int SCALE_FACTOR = 4;
+const int WIDTH = 800;
+const int HEIGHT = 600;
+//const int SCALE_FACTOR = 4;
 
 using namespace std;
 using namespace chrono;
@@ -32,26 +34,17 @@ int main(int argc, char *argv[])
     return EXIT_FAILURE;
   }
 
-  //load textures
-  cache.LoadImage("background", "assets/img/background.png");
-  //cache.LoadFont("anon", "assets/fonts/ttf/Anonymous.ttf");
-  cache.LoadBitmapFont("chocolate", "assets/fonts/bmp/chocolateMono.png", "assets/fonts/bmp/chocolateMono.json");
-  //optimize them with the screen surface
-  cache.FormatTexturesToScreen(game.GetRenderer(), game.GetScreen());
+  Entity& a(game.AddEntity("A"));
+  a.AddComponent<Transform>(0, 0, 20, 20, 32, 32, 1);
 
-  //create GameObjects
-  //Image* background = new Image(game, cache, "background");
-  Image * box = new Image(game, cache, "default");
-  DebugText* fpsText = new DebugText(game, cache, "chocolate");
-  //Text* inputText = new Text(game, cache, "chocolate");
-  //Camera* camera = new Camera(game, 0, 0, WIDTH, HEIGHT);
+  Entity& b(game.AddEntity("B"));
+  b.AddComponent<Transform>(WIDTH / 2, HEIGHT / 2, 20, -20, 32, 32, 1);
 
-  //add GameObjects to the game
-  //game.AddObject(background);
-  game.AddObject(box);
-  //game.AddObject(camera);
-  game.AddObject(fpsText);
-  //game.AddObject(inputText, 0, 16);
+  Entity& c(game.AddEntity("C"));
+  c.AddComponent<Transform>(WIDTH, HEIGHT, -20, -20, 32, 32, 1);
+
+  game.ListAllEntities();
+  game.ListAllComponents();
 
   bool exitSignalled = false;
   //main game loop

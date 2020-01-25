@@ -5,16 +5,18 @@
 using namespace std::chrono;
 using namespace std::chrono_literals;
 
+SDL_Renderer* Game::s_renderer;
+
 Game::Game(const int& width, const int& height)
   : m_width(width)
   , m_height(height)
   , m_window(nullptr)
   , m_screen(nullptr)
-  , m_renderer(nullptr)
+  , m_entityManager()
+  //, s_renderer(nullptr)
   , m_quitting(false)
   , m_scaleFactor(0)
   , m_lastTime(0)
-  , m_lag(0.0f)
   , m_msPerFrame(1000 / FRAMERATE)
 { 
   //m_lastTime = SDL_GetTicks();//duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch());
@@ -34,8 +36,8 @@ bool Game::Initialize()
     m_height,
     SDL_WINDOW_ALLOW_HIGHDPI
   );
-  m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
-  SDL_SetRenderDrawColor(m_renderer, 0x00, 0x00, 0x00, 0x00);
+  s_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+  SDL_SetRenderDrawColor(s_renderer, 0x00, 0x00, 0x00, 0x00);
   if (nullptr == m_window) {
     printf("Could not create SDL Window: %s\n", SDL_GetError());
     return true;
@@ -45,6 +47,7 @@ bool Game::Initialize()
     printf("Could not get window surface: %s\n", SDL_GetError());
     return true;
   }
+
   return false;
 }
 
@@ -58,17 +61,22 @@ bool Game::Update()
 
   while (!SDL_TICKS_PASSED(SDL_GetTicks(), m_lastTime + m_msPerFrame)) {
     //wait if we're above our target framerate
-    //printf("waiting\n");
   }
 
+  float now = SDL_GetTicks();
+
+  float deltaTime = (now - m_lastTime) / 1000.0f;
   //clamp deltaTime to a max in case we were debugging
-  float deltaTime = (SDL_GetTicks() - m_lastTime) / 1000.0f;
   deltaTime = (deltaTime > 0.05f) ? 0.05f : deltaTime;
-  m_lastTime = SDL_GetTicks();
+  m_lastTime = now;
 
-  for (auto & obj : m_activeObjects) {
-    obj->Update(deltaTime);
+  if (false == m_entityManager.HasNoEntities()) {
+    m_entityManager.Update(deltaTime);
   }
+
+  //for (auto & obj : m_activeObjects) {
+  //  obj->Update(deltaTime);
+  //}
   
   Render();
   return false;
@@ -81,13 +89,18 @@ void Game::Quit()
 
 bool Game::Render()
 {
-  SDL_RenderClear(m_renderer);
-  for (auto & obj : m_activeObjects) {
-    if (true == obj->Render(m_renderer)) {
-      return true;
-    }
+  SDL_SetRenderDrawColor(s_renderer, 0, 0, 0, 255);
+  SDL_RenderClear(s_renderer);
+  //for (auto & obj : m_activeObjects) {
+  //  if (true == obj->Render(s_renderer)) {
+  //    return true;
+  //  }
+  //}
+  if (m_entityManager.HasNoEntities()) {
+    return false;
   }
-  SDL_RenderPresent(m_renderer);
+  m_entityManager.Render();
+  SDL_RenderPresent(s_renderer);
   return false;
 }
 
@@ -138,20 +151,29 @@ void Game::Rescale(const int& scaleFactor)
   m_scaleFactor = scaleFactor;
 }
 
-void Game::AddObject(GameObject* obj, const float& worldX, const float& worldY)
+Entity& Game::AddEntity(const char* name, const float& worldX, const float& worldY)
 {
-  if (nullptr != obj) {
-    if (obj->Initialize() == false) {
-      m_activeObjects.push_back(obj);
-      obj->SetPosition(worldX, worldY);
-    }
-  }
+    //if (e->Initialize() == false) {
+    //  m_activeObjects.push_back(obj);
+    //  obj->SetPosition(worldX, worldY);
+    //}
+  return m_entityManager.AddEntity(name);
+}
+
+void Game::ListAllEntities()
+{
+  m_entityManager.ListAllEntities();
+}
+
+void Game::ListAllComponents()
+{
+  m_entityManager.ListAllComponents();
 }
 
 Game::~Game()
 {
-  SDL_DestroyRenderer(m_renderer);
-  m_renderer = nullptr;
+  SDL_DestroyRenderer(s_renderer);
+  s_renderer = nullptr;
   SDL_DestroyWindow(m_window);
   m_window = nullptr;
   SDL_Quit();
