@@ -1,11 +1,11 @@
 #include "pch.h"
 
-#include "Cache.h"
+#include "CacheManager.h"
 
-Cache::Cache()
+CacheManager::CacheManager()
 { }
 
-bool Cache::Initialize()
+bool CacheManager::Initialize()
 {
   int imgFlags = IMG_INIT_PNG;
   if (!(IMG_Init(imgFlags) & imgFlags)) {
@@ -20,7 +20,7 @@ bool Cache::Initialize()
   return false;
 }
 
-bool Cache::LoadImage(const char * key, const char * filename)
+bool CacheManager::LoadImage(const char * key, const char * filename)
 {
   SDL_Surface * loadedSurface = IMG_Load(filename);
   if (nullptr == loadedSurface)
@@ -29,6 +29,19 @@ bool Cache::LoadImage(const char * key, const char * filename)
     return true;
   }
   m_surfaces[key] = loadedSurface;
+  return false;
+}
+
+bool CacheManager::LoadSpriteSheet(const char * key, const char * imageFilename, const char * dataFilename)
+{
+  if (true == LoadImage(key, imageFilename)) {
+    return true;
+  }
+  if (true == LoadJson(key, dataFilename)) {
+    return true;
+  }
+
+
   return false;
 }
 
@@ -43,7 +56,7 @@ bool Cache::LoadImage(const char * key, const char * filename)
 //  return false;
 //}
 
-bool Cache::LoadBitmapFont(const char* key, const char* bmpFilename, const char* jsonFilename)
+bool CacheManager::LoadBitmapFont(const char* key, const char* bmpFilename, const char* jsonFilename)
 {
   // Read whole file into a buffer
   FILE* fp;
@@ -80,7 +93,26 @@ bool Cache::LoadBitmapFont(const char* key, const char* bmpFilename, const char*
   return LoadImage(key, bmpFilename);
 }
 
-void Cache::FormatTexturesToScreen(SDL_Renderer* renderer, SDL_Surface* screen)
+bool CacheManager::LoadJson(const char * key, const char * jsonFilename)
+{
+  // Read whole file into a buffer
+  FILE* fp;
+  fopen_s(&fp, jsonFilename, "r");
+  fseek(fp, 0, SEEK_END);
+  size_t filesize = (size_t)ftell(fp);
+  fseek(fp, 0, SEEK_SET);
+  char* buffer = (char*)malloc(filesize + 1);
+  size_t readLength = fread(buffer, 1, filesize, fp);
+  buffer[readLength] = '\0';
+  fclose(fp);
+  // In situ parsing the buffer into fontData, buffer will also be modified
+  rapidjson::Document* data = new rapidjson::Document();
+  data->ParseInsitu(buffer);
+  m_jsonData[key] = data;
+  return false;
+}
+
+void CacheManager::FormatTexturesToScreen(SDL_Renderer* renderer, SDL_Surface* screen)
 {
   for (auto & it : m_surfaces) {
     SDL_Surface * optimizedSurface = SDL_ConvertSurface(it.second, screen->format, 0);
@@ -101,7 +133,7 @@ void Cache::FormatTexturesToScreen(SDL_Renderer* renderer, SDL_Surface* screen)
   }
 }
 
-SDL_Texture* Cache::GetTexture(const char* key)
+SDL_Texture* CacheManager::GetTexture(const char* key)
 {
   if (m_textures.find(key) == m_textures.end()) {
     return nullptr;
@@ -109,7 +141,7 @@ SDL_Texture* Cache::GetTexture(const char* key)
   return m_textures[key];
 }
 
-SDL_Texture* Cache::GetBitmapFont(const char * key, LetterData** rectArray)
+SDL_Texture* CacheManager::GetBitmapFont(const char * key, LetterData** rectArray)
 {
   if (m_textures.find(key) == m_textures.end()) {
     return nullptr;
@@ -118,7 +150,15 @@ SDL_Texture* Cache::GetBitmapFont(const char * key, LetterData** rectArray)
   return m_textures[key];
 }
 
-Cache::~Cache()
+rapidjson::Value* CacheManager::GetJson(const char * key)
+{
+  if (m_jsonData.find(key) == m_jsonData.end()) {
+    return nullptr;
+  }
+  return m_jsonData[key];
+}
+
+CacheManager::~CacheManager()
 {
   for (auto & it : m_surfaces) {
     SDL_FreeSurface(it.second);

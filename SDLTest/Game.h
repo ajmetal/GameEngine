@@ -9,6 +9,7 @@
 //#include "GameObject.h"
 #include "Entity.h"
 #include "EntityManager.h"
+#include "CacheManager.h"
 
 const int FRAMERATE = 60;
 
@@ -22,6 +23,7 @@ public:
   Entity& AddEntity(const char* name, const float& worldX = 0, const float& worldY = 0);
   void ListAllEntities();
   void ListAllComponents();
+  void LoadImage(const char* key, const char* filename);
   SDL_Surface * GetScreen() {
     return m_screen;
   }
@@ -43,6 +45,7 @@ public:
   } Input;
 
   static SDL_Renderer* s_renderer;
+  static CacheManager s_cacheManager;
 
 protected:
 

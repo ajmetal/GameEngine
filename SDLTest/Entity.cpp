@@ -21,28 +21,28 @@ Entity::~Entity()
 void Entity::ListComponents()
 {
   for (auto& component : m_components) {
-    component->ToString();
+    std::cout << component.second->ToString() << std::endl;
   }
 }
 
 void Entity::Update(float deltaTime)
 {
   for (auto& component : m_components) {
-    component->Update(deltaTime);
+    component.second->Update(deltaTime);
   }
 }
 
 void Entity::Render()
 {
   for (auto& component : m_components) {
-    component->Render();
+    component.second->Render();
   }
 }
 
 void Entity::Destroy()
 {
   for (auto& component : m_components) {
-    component->Destroy();
+    component.second->Destroy();
   }
 }
 

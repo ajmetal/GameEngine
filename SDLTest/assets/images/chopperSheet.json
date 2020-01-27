@@ -1,0 +1,58 @@
+[
+	{
+		"name": "chopperDown0",
+		"x": 0,
+		"y": 0,
+		"width": 32,
+		"height": 32
+	},
+	{
+		"name": "chopperDown1",
+		"x": 0,
+		"y": 32,
+		"width": 32,
+		"height": 32
+	},
+	{
+		"name": "chopperRight0",
+		"x": 32,
+		"y": 0,
+		"width": 32,
+		"height": 32
+	},
+	{
+		"name": "chopperRight1",
+		"x": 32,
+		"y": 32,
+		"width": 32,
+		"height": 32
+	},
+	{
+		"name": "chopperLeft0",
+		"x": 0,
+		"y": 64,
+		"width": 32,
+		"height": 32
+	},
+	{
+		"name": "chopperLeft1",
+		"x": 32,
+		"y": 64,
+		"width": 32,
+		"height": 32
+	},
+	{
+		"name": "chopperUp0",
+		"x": 64,
+		"y": 0,
+		"width": 32,
+		"height": 32
+	},
+	{
+		"name": "chopperUp1",
+		"x": 64,
+		"y": 32,
+		"width": 32,
+		"height": 32
+	}
+]

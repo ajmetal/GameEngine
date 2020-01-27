@@ -6,6 +6,7 @@
 #include "EntityManager.h"
 #include "Component.h"
 #include "glm/glm.hpp"
+#include <string>
 
 class Transform : public Component
 {
@@ -27,11 +28,17 @@ public:
     float s = 0.0f
   );
 
+  inline float GetWidth() { return m_width; }
+  inline float GetHeight() { return m_height; }
+  inline float GetScale() { return m_scale; }
+  inline glm::vec2 GetPosition() { return m_position; }
+  inline glm::vec2 GetVelocity() { return m_velocity; }
+
   void Initialize() override;
   void Update(float deltaTime) override;
   void Render() override;
   void Destroy() override;
-  void ToString() override;
+  std::string ToString() override;
   ~Transform();
 };
 

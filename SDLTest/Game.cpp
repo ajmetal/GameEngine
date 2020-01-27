@@ -6,6 +6,7 @@ using namespace std::chrono;
 using namespace std::chrono_literals;
 
 SDL_Renderer* Game::s_renderer;
+CacheManager Game::s_cacheManager;
 
 Game::Game(const int& width, const int& height)
   : m_width(width)
@@ -47,6 +48,9 @@ bool Game::Initialize()
     printf("Could not get window surface: %s\n", SDL_GetError());
     return true;
   }
+
+  s_cacheManager = CacheManager();
+  s_cacheManager.Initialize();
 
   return false;
 }
@@ -168,6 +172,11 @@ void Game::ListAllEntities()
 void Game::ListAllComponents()
 {
   m_entityManager.ListAllComponents();
+}
+
+void Game::LoadImage(const char * key, const char * filename)
+{
+  s_cacheManager.LoadImage(key, filename);
 }
 
 Game::~Game()

@@ -167,31 +167,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BitmapFont.h" />
-    <ClInclude Include="Cache.h" />
-    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="CacheManager.h" />
     <ClInclude Include="Component.h" />
-    <ClInclude Include="DebugText.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Image.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Text.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BitmapFont.cpp" />
-    <ClCompile Include="Cache.cpp" />
-    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="CacheManager.cpp" />
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="DebugText.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="Image.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -199,7 +193,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Text.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Vector2.cpp" />
   </ItemGroup>

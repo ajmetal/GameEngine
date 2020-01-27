@@ -19,23 +19,29 @@ struct LetterData {
   int height;
 };
 
-class Cache
+class CacheManager
 {
 public:
-  Cache();
+  CacheManager();
   bool Initialize();
   bool LoadImage(const char* key, const char* filename);
-  bool LoadFont(const char* key, const char* filename);
+  bool LoadSpriteSheet(const char* key, const char* imageFilename, const char* jsonFilename);
+  //bool LoadFont(const char* key, const char* filename);
   bool LoadBitmapFont(const char* key, const char* bmpFilename, const char* jsonFilename);
+  bool LoadJson(const char* key, const char* jsonFilename);
   void FormatTexturesToScreen(SDL_Renderer* renderer, SDL_Surface* screen);
   SDL_Texture* GetTexture(const char* key);
   SDL_Texture* GetBitmapFont(const char* key, LetterData** rectArray);
-  ~Cache();
+  rapidjson::Value* GetJson(const char* key);
+
+  ~CacheManager();
 protected:
 private:
-  const char * DEFAULT_IMG_PATH = "assets/img/default.png";
+  const char * DEFAULT_IMG_PATH = "assets/images/default.png";
   std::unordered_map<const char*, SDL_Surface*> m_surfaces;
   std::unordered_map<const char*, SDL_Texture*> m_textures;
   std::unordered_map<const char*, LetterData*> m_fontData;
+  std::unordered_map<const char*, rapidjson::Value*> m_jsonData;
+  std::unordered_map<const char*, LetterData*> m_spriteSheetData;
 };
 

@@ -31,24 +31,28 @@ void Transform::Update(float deltaTime)
 
 void Transform::Render()
 {
-  SDL_Rect transformRect = {
-    m_position.x,
-    m_position.y,
-    m_width,
-    m_height
-  };
+  //SDL_Rect transformRect = {
+  //  m_position.x,
+  //  m_position.y,
+  //  m_width,
+  //  m_height
+  //};
 
-  SDL_SetRenderDrawColor(Game::s_renderer, 255, 255, 255, 255);
-  SDL_RenderFillRect(Game::s_renderer, &transformRect);
+  //SDL_SetRenderDrawColor(Game::s_renderer, 255, 255, 255, 255);
+  //SDL_RenderFillRect(Game::s_renderer, &transformRect);
 }
 
 void Transform::Destroy()
 {
 }
 
-void Transform::ToString()
+std::string Transform::ToString()
 {
-  printf("Transform on %s: posX: %f, posY: %f, velX: %f, velY: %f, w: %f, h: %f, s: %f\n",
+  char buffer[256];
+  snprintf(
+    buffer,
+    sizeof(buffer),
+    "Transform on %s: posX: %f, posY: %f, velX: %f, velY: %f, w: %f, h: %f, s: %f\n",
     m_owner->m_name,
     m_position.x,  
     m_position.y,
@@ -58,6 +62,7 @@ void Transform::ToString()
     m_height,
     m_scale
   );
+  return buffer;
 }
 
 Transform::~Transform()

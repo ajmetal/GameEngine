@@ -9,6 +9,7 @@ Component::~Component() {
 
 }
 
-void Component::ToString()
+std::string Component::ToString()
 {
+  return "";
 }
