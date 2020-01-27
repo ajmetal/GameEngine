@@ -26,7 +26,7 @@ public:
   void Play(const char* key);
 
   //void SetTexture(const char* key);
-  void Update(float deltaTime) override;
+  void Update(const float& deltaTime) override;
   void Render() override;
   void Initialize() override;
   void Destroy() override;

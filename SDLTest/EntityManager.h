@@ -11,7 +11,7 @@ private:
   std::vector<Entity*> m_entities;
 public:
 
-  void Update(float deltaTime);
+  void Update(const float& deltaTime);
   void Render();
   void ClearData();
   bool HasNoEntities();
@@ -20,6 +20,7 @@ public:
   Entity& AddEntity(const char* name);
   std::vector<Entity*> GetEntities() const;
   unsigned int GetEntityCount();
+  void StartScene();
   EntityManager();
   ~EntityManager();
 };

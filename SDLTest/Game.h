@@ -10,6 +10,7 @@
 #include "Entity.h"
 #include "EntityManager.h"
 #include "CacheManager.h"
+#include "InputManager.h"
 
 const int FRAMERATE = 60;
 
@@ -27,9 +28,8 @@ public:
   SDL_Surface * GetScreen() {
     return m_screen;
   }
-  SDL_Renderer* GetRenderer() {
-    return Game::s_renderer;
-  }
+
+  void StartScene();
 
   ~Game();
 
@@ -46,6 +46,7 @@ public:
 
   static SDL_Renderer* s_renderer;
   static CacheManager s_cacheManager;
+  static InputManager s_inputManager;
 
 protected:
 

@@ -10,7 +10,7 @@ class GameObject
 public:
 
   virtual bool Initialize() = 0;
-  virtual void Update(float deltaTime) = 0;
+  virtual void Update(const float& deltaTime) = 0;
   virtual bool Render(SDL_Renderer* renderer) = 0;
   inline int GetId() { return m_id; }
   inline bool IsActive() { return m_active; }

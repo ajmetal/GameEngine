@@ -35,7 +35,7 @@ public:
   inline glm::vec2 GetVelocity() { return m_velocity; }
 
   void Initialize() override;
-  void Update(float deltaTime) override;
+  void Update(const float& deltaTime) override;
   void Render() override;
   void Destroy() override;
   std::string ToString() override;

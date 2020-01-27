@@ -28,8 +28,8 @@ public:
     component->m_owner = this;
     //m_components.push_back(component);
     m_components[&typeid(*component)] = component;
-    component->Initialize();
-    return *static_cast<T*>(component);
+    //component->Initialize();
+    return *component;
   }
 
   template <typename T>
@@ -42,7 +42,7 @@ public:
     return (m_components.find(&typeid(T)) != m_components.end());
   }
 
-  void Update(float deltaTime);
+  void Update(const float& deltaTime);
   void Render();
   void Destroy();
   bool Initialize();

@@ -7,6 +7,7 @@ using namespace std::chrono_literals;
 
 SDL_Renderer* Game::s_renderer;
 CacheManager Game::s_cacheManager;
+InputManager Game::s_inputManager;
 
 Game::Game(const int& width, const int& height)
   : m_width(width)
@@ -14,14 +15,11 @@ Game::Game(const int& width, const int& height)
   , m_window(nullptr)
   , m_screen(nullptr)
   , m_entityManager()
-  //, s_renderer(nullptr)
   , m_quitting(false)
   , m_scaleFactor(0)
   , m_lastTime(0)
   , m_msPerFrame(1000 / FRAMERATE)
-{ 
-  //m_lastTime = SDL_GetTicks();//duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch());
-}
+{ }
 
 bool Game::Initialize()
 {
@@ -61,8 +59,6 @@ bool Game::Update()
     return true;
   };
 
-  ProcessInput();
-
   while (!SDL_TICKS_PASSED(SDL_GetTicks(), m_lastTime + m_msPerFrame)) {
     //wait if we're above our target framerate
   }
@@ -74,13 +70,11 @@ bool Game::Update()
   deltaTime = (deltaTime > 0.05f) ? 0.05f : deltaTime;
   m_lastTime = now;
 
+  s_inputManager.Update(deltaTime);
+
   if (false == m_entityManager.HasNoEntities()) {
     m_entityManager.Update(deltaTime);
   }
-
-  //for (auto & obj : m_activeObjects) {
-  //  obj->Update(deltaTime);
-  //}
   
   Render();
   return false;
@@ -95,59 +89,12 @@ bool Game::Render()
 {
   SDL_SetRenderDrawColor(s_renderer, 0, 0, 0, 255);
   SDL_RenderClear(s_renderer);
-  //for (auto & obj : m_activeObjects) {
-  //  if (true == obj->Render(s_renderer)) {
-  //    return true;
-  //  }
-  //}
   if (m_entityManager.HasNoEntities()) {
     return false;
   }
   m_entityManager.Render();
   SDL_RenderPresent(s_renderer);
   return false;
-}
-
-//return false only if we've suffered an unrecoverable error, or the user has clicked X
-bool Game::ProcessInput()
-{
-  SDL_Event event;
-  Input.reset();
-  //event loop
-  while (SDL_PollEvent(&event)) {
-    switch (event.type) {
-    case SDL_QUIT:
-      Quit();
-      break;
-    case SDL_KEYDOWN: {
-      switch (event.key.keysym.sym) {
-      case SDLK_ESCAPE:
-        printf("QUITP\n");
-        Quit();
-        break;
-      case SDLK_UP:
-        printf("SDLK_UP\n");
-        Input.upDown = true;
-        break;
-      case SDLK_DOWN:
-        printf("SDLK_DOWN\n");
-        Input.downDown = true;
-        break;
-      case SDLK_LEFT:
-        printf("SDLK_LEFT\n");
-        Input.leftDown = true;
-        break;
-      case SDLK_RIGHT:
-        printf("SDLK_RIGHT\n");
-        Input.rightDown = true;
-        break;
-      }
-    }
-    break;
-    }
-  }
-
-  return true;
 }
 
 void Game::Rescale(const int& scaleFactor)
@@ -177,6 +124,12 @@ void Game::ListAllComponents()
 void Game::LoadImage(const char * key, const char * filename)
 {
   s_cacheManager.LoadImage(key, filename);
+}
+
+void Game::StartScene()
+{
+  m_entityManager.StartScene();
+  s_inputManager.Initialize();
 }
 
 Game::~Game()

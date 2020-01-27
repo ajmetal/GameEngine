@@ -25,7 +25,7 @@ void Entity::ListComponents()
   }
 }
 
-void Entity::Update(float deltaTime)
+void Entity::Update(const float& deltaTime)
 {
   for (auto& component : m_components) {
     component.second->Update(deltaTime);
@@ -48,6 +48,9 @@ void Entity::Destroy()
 
 bool Entity::Initialize()
 {
+  for (auto& i : m_components) {
+    i.second->Initialize();
+  }
   return false;
 }
 

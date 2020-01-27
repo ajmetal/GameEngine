@@ -38,7 +38,7 @@ void Sprite::Destroy()
 {
 }
 
-void Sprite::Update(float deltaTime)
+void Sprite::Update(const float& deltaTime)
 {
   if (m_isAnimated && 
       m_currentAnimation != nullptr && 
@@ -52,8 +52,7 @@ void Sprite::Update(float deltaTime)
   glm::vec2 position = m_transform.GetPosition();
   m_destinationRect.x = static_cast<int>(position.x);
   m_destinationRect.y = static_cast<int>(position.y);
-  float scale = 10;//static_cast<int>(m_transform.GetScale());
-  
+  int scale = static_cast<int>(m_transform.GetScale());
   m_destinationRect.w = static_cast<int>(m_transform.GetWidth() * scale);
   m_destinationRect.h = static_cast<int>(m_transform.GetHeight() * scale);
 }

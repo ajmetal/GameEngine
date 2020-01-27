@@ -13,7 +13,7 @@
 
 const int WIDTH = 800;
 const int HEIGHT = 600;
-//const int SCALE_FACTOR = 4;
+const int SCALE_FACTOR = 4;
 
 using namespace std;
 using namespace chrono;
@@ -30,12 +30,13 @@ int main(int argc, char *argv[])
   Game::s_cacheManager.FormatTexturesToScreen(Game::s_renderer, game.GetScreen());
 
   Entity& a(game.AddEntity("A"));
-  a.AddComponent<Transform>(0, 0, 20, 20, 32, 32, 1);
+  a.AddComponent<Transform>(0, 0, 20, 20, 32, 32, SCALE_FACTOR);
   std::cout << a.GetComponent<Transform>().GetHeight() << std::endl;
   a.AddComponent<Sprite>("chopperSheet");
-  
-  a.GetComponent<Sprite>().AddAnimation("chopperDown", 2, 1000);
+  a.GetComponent<Sprite>().AddAnimation("chopperDown", 2, 10);
   a.GetComponent<Sprite>().Play("chopperDown");
+
+  game.StartScene();
  
   std::cout << (a.HasComponent<Sprite>() ? "true" : "false") << std::endl;
 

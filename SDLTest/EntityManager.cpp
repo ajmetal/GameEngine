@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EntityManager.h"
 
-void EntityManager::Update(float deltaTime)
+void EntityManager::Update(const float& deltaTime)
 {
   for (auto& entity : m_entities) {
     entity->Update(deltaTime);
@@ -59,11 +59,17 @@ unsigned int EntityManager::GetEntityCount()
   return m_entities.size();
 }
 
+void EntityManager::StartScene()
+{
+  for (auto& i : m_entities) {
+    i->Initialize();
+  }
+}
+
 EntityManager::EntityManager()
 {
 
 }
-
 
 EntityManager::~EntityManager()
 {

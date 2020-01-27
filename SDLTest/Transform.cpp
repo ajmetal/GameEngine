@@ -23,8 +23,23 @@ void Transform::Initialize()
 {
 }
 
-void Transform::Update(float deltaTime)
+void Transform::Update(const float& deltaTime)
 {
+  float speed = 100;
+  m_velocity.x = m_velocity.y = 0;
+  if (Game::s_inputManager.GetKeyState(SDLK_w)) {
+    m_velocity.y = -speed;
+  }
+  else if (Game::s_inputManager.GetKeyState(SDLK_s)) {
+    m_velocity.y = speed;
+  }
+  if (Game::s_inputManager.GetKeyState(SDLK_d)) {
+    m_velocity.x = speed;
+  }
+  else if (Game::s_inputManager.GetKeyState(SDLK_a)) {
+    m_velocity.y = -speed;
+  }
+
   m_position.x += m_velocity.x * deltaTime;
   m_position.y += m_velocity.y * deltaTime;
 }
