@@ -36,6 +36,15 @@ void InputManager::Update(const float& deltaTime)
         //std::cout << "key up: " << event.key.keysym.sym << std::endl;
         m_keyStates[event.key.keysym.sym] = false;
       }
+      break;
+      case SDL_MOUSEMOTION: {
+        SDL_GetMouseState(&m_mouseX, &m_mouseY);
+        //printf("Mouse Position: x: %i, y: %i", m_mouseX, m_mouseY);
+      }
+      break;
+
+      //SDL_MOUSEBUTTONDOWN,
+      //SDL_MOUSEBUTTONUP,
     }
   }
 }
@@ -46,8 +55,9 @@ bool InputManager::GetKeyState(const int & keyCode)
 }
 
 InputManager::InputManager()
-{
-}
+  : m_mouseX(0)
+  , m_mouseY(0)
+{}
 
 
 InputManager::~InputManager()

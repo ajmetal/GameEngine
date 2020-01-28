@@ -8,11 +8,11 @@
 class Sprite : public Component
 {
 private:
-  Transform m_transform;
-  SDL_Texture * m_texture;
+  Transform* m_transform;
+  SDL_Texture* m_texture;
   SDL_Rect m_sourceRect;
   SDL_Rect m_destinationRect;
-  const char * m_key;
+  const char* m_key;
   bool m_isFixed;
   bool m_isAnimated;
   std::unordered_map<const char*, Animation*> m_animations;
@@ -22,8 +22,8 @@ public:
   Sprite(const char* key, const bool& isFixed=false);
 
   SDL_RendererFlip m_flip;
-  Animation& AddAnimation(const char* key, const int& numFrames, const int& animationSpeed);
-  void Play(const char* key);
+  Sprite* AddAnimation(const char* key, const int& numFrames, const int& animationSpeed);
+  Sprite* Play(const char* key);
 
   //void SetTexture(const char* key);
   void Update(const float& deltaTime) override;

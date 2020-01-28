@@ -10,10 +10,11 @@
 #include "Entity.h"
 #include "Transform.h"
 #include "Sprite.h"
+#include "TestComponent.h"
 
 const int WIDTH = 800;
 const int HEIGHT = 600;
-const int SCALE_FACTOR = 4;
+const int SCALE_FACTOR = 2;
 
 using namespace std;
 using namespace chrono;
@@ -30,11 +31,17 @@ int main(int argc, char *argv[])
   Game::s_cacheManager.FormatTexturesToScreen(Game::s_renderer, game.GetScreen());
 
   Entity& a(game.AddEntity("A"));
-  a.AddComponent<Transform>(0, 0, 20, 20, 32, 32, SCALE_FACTOR);
-  std::cout << a.GetComponent<Transform>().GetHeight() << std::endl;
-  a.AddComponent<Sprite>("chopperSheet");
-  a.GetComponent<Sprite>().AddAnimation("chopperDown", 2, 10);
-  a.GetComponent<Sprite>().Play("chopperDown");
+  a.AddComponent<Transform>(0, 0, 32, 32, SCALE_FACTOR);
+  std::cout << a.GetComponent<Transform>()->GetHeight() << std::endl;
+  Sprite* s = a.AddComponent<Sprite>("chopperSheet");
+  s->AddAnimation("chopperDown", 2, 10)->
+    AddAnimation("chopperRight", 2, 10)->
+    AddAnimation("chopperLeft", 2, 10)->
+    AddAnimation("chopperUp", 2, 10);
+  s->Play("chopperDown");
+  a.AddComponent<TestComponent>();
+  //a.GetComponent<Sprite>().AddAnimation("chopperDown", 2, 10);
+  //a.GetComponent<Sprite>().Play("chopperDown");
 
   game.StartScene();
  
