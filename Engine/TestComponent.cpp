@@ -9,31 +9,46 @@ void TestComponent::Initialize()
 
 void TestComponent::Update(const float& deltaTime)
 {
-    float speed = 100;
-    m_velocity.x = m_velocity.y = 0;
-    if (Game::s_inputManager.GetKeyState(SDLK_w)) {
-        m_velocity.y = -speed;
+    m_velocity.x = m_velocity.y = 0.0f;
+    InputManager input = Game::GetInstance().m_inputManager;
+    if (input.GetKeyState(SDL_SCANCODE_W)) {
+        m_velocity.y = -1.0f;
+        m_sprite->Play("chopperUp");
     }
-    else if (Game::s_inputManager.GetKeyState(SDLK_s)) {
-        m_velocity.y = speed;
+    else if (input.GetKeyState(SDL_SCANCODE_S)) {
+        m_velocity.y = 1.0f;
+        m_sprite->Play("chopperDown");
     }
-    if (Game::s_inputManager.GetKeyState(SDLK_d)) {
-        m_velocity.x = speed;
+    if (input.GetKeyState(SDL_SCANCODE_D)) {
+        m_velocity.x = 1.0f;
+        m_sprite->Play("chopperRight");
     }
-    else if (Game::s_inputManager.GetKeyState(SDLK_a)) {
-        m_velocity.x = -speed;
+    else if (input.GetKeyState(SDL_SCANCODE_A)) {
+        m_velocity.x = -1.0f;
+        m_sprite->Play("chopperLeft");
     }
 
-    glm::vec2 position = m_transform->GetPosition();
-    m_transform->SetPosition(position + (m_velocity * deltaTime));
+    if (m_velocity.x == 0.0f && m_velocity.y == 0.0f) {
+        return;
+    }
+    glm::vec2 normalized = glm::normalize(m_velocity);
+    m_velocity = normalized * 100.0f * deltaTime;
+    //m_velocity = (glm::vec2)glm::normalize(m_velocity);
+    m_transform->SetPosition(m_transform->GetPosition() + m_velocity);
 }
 
-TestComponent::TestComponent()
-{
-
-}
-
+TestComponent::TestComponent(Entity* owner)
+    : Component(owner)
+    , m_sprite(nullptr)
+    , m_transform(nullptr)
+    , m_acceleration(0.0)
+{}
 
 TestComponent::~TestComponent()
 {
+}
+
+std::string TestComponent::ToString()
+{
+    return "Test Component";
 }

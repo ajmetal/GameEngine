@@ -4,6 +4,7 @@
 
 GameObject::GameObject()
     : m_id(currentId++)
+    , m_active(false)
     , m_position{ 0, 0 }
     , m_scale{ 0, 0 }
 { }

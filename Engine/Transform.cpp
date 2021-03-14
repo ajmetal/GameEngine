@@ -2,19 +2,19 @@
 #include "Transform.h"
 
 Transform::Transform(
+    Entity* owner,
     float posX,
     float posY,
     float w,
     float h,
     float s
 )
-//Component(nullptr)
-    : m_position(glm::vec2(posX, posY))
+    : Component(owner)
+    , m_position(glm::vec2(posX, posY))
     , m_width(w)
     , m_height(h)
     , m_scale(s)
-{
-}
+{}
 
 glm::vec2 Transform::SetPosition(const glm::vec2& newPos)
 {

@@ -8,7 +8,7 @@
 #include "glm/glm.hpp"
 #include <string>
 
-class Transform : public IComponent
+class Transform : public Component
 {
 private:
     glm::vec2 m_position;
@@ -18,6 +18,7 @@ private:
 
 public:
     Transform(
+        Entity* owner = nullptr,
         float posX = 0.0f,
         float posY = 0.0f,
         float w = 0.0f,

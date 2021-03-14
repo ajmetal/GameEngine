@@ -5,7 +5,7 @@
 #include "Sprite.h"
 #include "glm/glm.hpp"
 
-class TestComponent : public IComponent
+class TestComponent : public Component
 {
 private:
     Transform* m_transform;
@@ -19,7 +19,8 @@ public:
     void Update(const float& deltaTime) override;
     void Render() override {};
     void Destroy() override {};
-    TestComponent();
+    std::string ToString() override;
+    TestComponent(Entity* owner);
     ~TestComponent();
 };
 

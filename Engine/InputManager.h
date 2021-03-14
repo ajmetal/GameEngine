@@ -8,7 +8,8 @@ class InputManager
 {
 private:
     void Reset();
-    std::vector<bool> m_keyStates;
+    //SDLK_AUDIOFASTFORWARD happens to be the last enum for SDL keys
+    bool m_keyStates[SDL_NUM_SCANCODES];
     int m_mouseX;
     int m_mouseY;
 

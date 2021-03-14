@@ -3,20 +3,25 @@
 //#include <vector>
 #include <typeinfo>
 #include <unordered_map>
-
-#include "Component.h"
 #include <iostream>
 
-class EntityManager;
+#include "Component.h"
 
 class Entity
 {
 private:
-    EntityManager& m_manager;
-    std::unordered_map<const std::type_info*, IComponent*> m_components;
+    std::unordered_map<const std::type_info*, Component*> m_components;
     bool m_isActive;
 
 public:
+    Entity();
+    Entity(Entity&);
+    Entity(Entity&&);
+    void operator=(Entity&);
+    void operator=(Entity&&);
+    Entity(const char* name);
+    virtual ~Entity();
+
     const char* m_name;
 
     void ListComponents();
@@ -24,11 +29,8 @@ public:
     template<typename T, typename ...TArgs>
     T* AddComponent(TArgs && ...args)
     {
-        T* component = new T(std::forward<TArgs>(args)...);
-        component->m_owner = this;
-        //m_components.push_back(component);
+        T* component = new T(this, std::forward<TArgs>(args)...);
         m_components[&typeid(*component)] = component;
-        //component->Initialize();
         return component;
     }
 
@@ -46,10 +48,9 @@ public:
     void Render();
     void Destroy();
     bool Initialize();
-    Entity(EntityManager& manager);
-    Entity(EntityManager& manager, const char* name);
+   
     bool IsActive() const;
-    virtual ~Entity();
+ 
 
 };
 
