@@ -1,13 +1,16 @@
 #include "pch.h"
-#include "TestComponent.h"
+#include "PlayerControl.h"
+#include "Text.h"
 
-void TestComponent::Initialize()
+
+
+void PlayerControl::Initialize()
 {
     m_transform = m_owner->GetComponent<Transform>();
     m_sprite = m_owner->GetComponent<Sprite>();
 }
 
-void TestComponent::Update(const float& deltaTime)
+void PlayerControl::Update(const float& deltaTime)
 {
     m_velocity.x = m_velocity.y = 0.0f;
     InputManager input = Game::GetInstance().m_inputManager;
@@ -31,24 +34,24 @@ void TestComponent::Update(const float& deltaTime)
     if (m_velocity.x == 0.0f && m_velocity.y == 0.0f) {
         return;
     }
-    glm::vec2 normalized = glm::normalize(m_velocity);
-    m_velocity = normalized * 100.0f * deltaTime;
-    //m_velocity = (glm::vec2)glm::normalize(m_velocity);
+    m_velocity = glm::normalize(m_velocity) * 100.0f * deltaTime;
+    m_owner->GetComponent<Text>()->SetString(string_format("x: %f, y: %f", m_velocity.x, m_velocity.y).c_str());
     m_transform->SetPosition(m_transform->GetPosition() + m_velocity);
 }
 
-TestComponent::TestComponent(Entity* owner)
+PlayerControl::PlayerControl(Entity* owner)
     : Component(owner)
     , m_sprite(nullptr)
     , m_transform(nullptr)
     , m_acceleration(0.0)
+    , m_velocity(0.0)
 {}
 
-TestComponent::~TestComponent()
+PlayerControl::~PlayerControl()
 {
 }
 
-std::string TestComponent::ToString()
+std::string PlayerControl::ToString()
 {
     return "Test Component";
 }

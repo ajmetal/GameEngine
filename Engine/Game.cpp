@@ -100,7 +100,7 @@ bool Game::LoadSpriteSheet(const char* key, const char* imageFilename, const cha
 ******************************************************************************/
 bool Game::LoadFont(const char* key, const char* filename)
 {
-    TTF_Font* loadedFont = TTF_OpenFont(filename, 28);
+    TTF_Font* loadedFont = TTF_OpenFont(filename, 24);
     if (nullptr == loadedFont) {
         printf("Unable to load font %s! SDL Error: %s\n", filename, SDL_GetError());
         return true;

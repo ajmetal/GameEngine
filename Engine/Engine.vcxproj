@@ -182,7 +182,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="TestComponent.cpp" />
+    <ClCompile Include="PlayerControl.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Vector2.cpp" />
@@ -198,7 +198,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Sprite.h" />
-    <ClInclude Include="TestComponent.h" />
+    <ClInclude Include="PlayerControl.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector2.h" />

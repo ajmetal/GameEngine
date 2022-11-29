@@ -3,9 +3,8 @@
 #include "Component.h"
 #include "Transform.h"
 #include "Sprite.h"
-#include "glm/glm.hpp"
 
-class TestComponent : public Component
+class PlayerControl : public Component
 {
 private:
     Transform* m_transform;
@@ -20,7 +19,7 @@ public:
     void Render() override {};
     void Destroy() override {};
     std::string ToString() override;
-    TestComponent(Entity* owner);
-    ~TestComponent();
+    PlayerControl(Entity* owner);
+    ~PlayerControl();
 };
 

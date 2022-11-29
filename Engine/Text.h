@@ -8,7 +8,7 @@
 class Text : public Component
 {
 public:
-    Text(const char* fontKey, const char* textString = "", SDL_Color color = {255,255,255,1});
+    Text(Entity* owner, const char* fontKey, const char* textString = "", SDL_Color color = {255,255,255,255});
     ~Text() {};
     virtual void Initialize() override;
     virtual void Update(const float& deltaTime) override;
@@ -17,10 +17,15 @@ public:
     virtual std::string ToString() override;
     void SetString(const char *);
 
+    void SetOffset(float x, float y);
+
 private:
     const char* m_key;
     TTF_Font* m_ttfFont;
     std::string m_textString;
     SDL_Color m_color;
+    SDL_Rect m_rect;
+    SDL_Texture* m_texture;
+    glm::vec2 m_offset;
 };
 

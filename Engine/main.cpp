@@ -37,14 +37,18 @@ int main(int argc, char* argv[])
     Entity* chopper = Game::GetInstance().AddEntity("chopper");
     chopper->AddComponent<Transform>(WIDTH / 2, HEIGHT / 2, 64, 64, 1);
     Sprite* chopperSprite = chopper->AddComponent<Sprite>("chopper");
-    chopper->AddComponent<TestComponent>();
-    //chopper->AddComponent<Text>("arial", "CHOPPA!");
+    chopper->AddComponent<PlayerControl>();
+    Text * text = chopper->AddComponent<Text>("arial", "CHOPPA!", SDL_Color{255, 255, 255, 255});
+    text->SetOffset(-32, -32);
 
+    /*Entity* debugText = Game::GetInstance().AddEntity("debugText");
+    debugText->AddComponent<Text>("arial");*/
+
+    //Once StartScene is called, all components/entities/etc will be initialized,
+    //so the "scene" needs to be totally set up before Intitialize is called.
     Game::GetInstance().StartScene();
     chopperSprite->Play("chopperDown");
 
-    //Once initialize is called, all components/entities/etc will be initialized,
-    //so the "scene" needs to be totally set up before Intitialize is called.
     bool quit = false;
     while (!quit)
     {
