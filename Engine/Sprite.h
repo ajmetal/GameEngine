@@ -24,8 +24,11 @@ public:
     void Update(const float& deltaTime) override;
     void Render() override;
     void Initialize() override;
+    void Start() override;
     void Destroy() override;
     std::string ToString() override;
+    //void OnEnable() override {};
+    //void OnDisable() override {};
 
 private:
     struct Animation {

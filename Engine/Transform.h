@@ -33,6 +33,9 @@ public:
     glm::vec2 SetPosition(const glm::vec2& newPos);
 
     void Initialize() override {};
+    void Start() override {};
+    void OnEnable() override {};
+    void OnDisable() override {};
     void Update(const float& deltaTime) override {};
     void Render() override {};
     void Destroy() override {};

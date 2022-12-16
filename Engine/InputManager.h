@@ -8,10 +8,10 @@ class InputManager
 {
 private:
     void Reset();
-    //SDLK_AUDIOFASTFORWARD happens to be the last enum for SDL keys
     bool m_keyStates[SDL_NUM_SCANCODES];
     int m_mouseX;
     int m_mouseY;
+    bool m_mouseLeftDown;
 
 public:
 
@@ -21,6 +21,7 @@ public:
     bool GetKeyState(const int& keyCode);
     inline int GetMouseX() { return m_mouseX; };
     inline int GetMouseY() { return m_mouseY; };
+    inline bool GetMouseLeftDown() { return m_mouseLeftDown; };
     InputManager();
     ~InputManager();
 };

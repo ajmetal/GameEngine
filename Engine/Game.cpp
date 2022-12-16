@@ -60,25 +60,27 @@ Game& Game::GetInstance()
 ******************************************************************************/
 bool Game::LoadImage(const char* key, const char* filename)
 {
-    SDL_Surface* loadedSurface = IMG_Load(filename);
-    if (nullptr == loadedSurface)
-    {
-        printf("Unable to load image %s! SDL Error: %s\n", filename, SDL_GetError());
-        return false;
-    }
-    SDL_Surface* optimizedSurface = SDL_ConvertSurface(loadedSurface, m_screen->format, 0);
-    if (nullptr == optimizedSurface) {
-        printf("Unable to optimize surface %s: %s\n", key, SDL_GetError());
-        return false;
-    }
-    SDL_FreeSurface(loadedSurface);
-    loadedSurface = nullptr;
-    SDL_Texture* finalTexture = SDL_CreateTextureFromSurface(m_renderer, optimizedSurface);
+    //SDL_Surface* loadedSurface = IMG_Load(filename);
+    //if (nullptr == loadedSurface)
+    //{
+    //    printf("Unable to load image %s! SDL Error: %s\n", filename, SDL_GetError());
+    //    return false;
+    //}
+    //SDL_Surface* optimizedSurface = SDL_ConvertSurface(loadedSurface, m_screen->format, 0);
+    //if (nullptr == optimizedSurface) {
+    //    printf("Unable to optimize surface %s: %s\n", key, SDL_GetError());
+    //    return false;
+    //}
+    //
+    //SDL_FreeSurface(loadedSurface);
+    //loadedSurface = nullptr;
+    SDL_Texture* finalTexture = IMG_LoadTexture(m_renderer, filename);// SDL_CreateTextureFromSurface(m_renderer, optimizedSurface);
     if (finalTexture == NULL)
     {
         printf("Unable to create texture from %s! SDL Error: %s\n", key, SDL_GetError());
         return false;
     }
+    //SDL_SetTextureBlendMode(finalTexture, SDL_BLENDMODE_BLEND);
     m_textures[key] = finalTexture;
     return true;
 }
@@ -178,7 +180,6 @@ bool Game::LoadJson(const char* key, const char* jsonFilename)
     size_t readLength = fread(buffer, 1, filesize, fp);
     buffer[readLength] = '\0';
     fclose(fp);
-    // In situ parsing the buffer into fontData, buffer will also be modified
     rapidjson::Document* data = new rapidjson::Document();
     data->ParseInsitu(buffer);
     m_jsonData[key] = data;
@@ -247,7 +248,7 @@ bool Game::Initialize(const float& msPerFrame, const int& scaleFactor, const int
         m_height,
         SDL_WINDOW_ALLOW_HIGHDPI
     );
-    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
     SDL_SetRenderDrawColor(m_renderer, 0x00, 0x00, 0x00, 0x00);
     if (nullptr == m_window) {
         printf("Could not create SDL Window: %s\n", SDL_GetError());
@@ -276,10 +277,17 @@ bool Game::Initialize(const float& msPerFrame, const int& scaleFactor, const int
 
 /******************************************************************************
 ******************************************************************************/
-void Game::StartScene()
+void Game::InitializeScene()
 {
     m_inputManager.Initialize();
     m_entityManager.Initialize();
+}
+
+/******************************************************************************
+******************************************************************************/
+void Game::StartScene()
+{
+    m_entityManager.Start();
 }
 
 /******************************************************************************
@@ -322,7 +330,7 @@ void Game::Quit()
 ******************************************************************************/
 bool  Game::Render()
 {
-    SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(m_renderer, 125, 75, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(m_renderer);
     if (m_entityManager.HasNoEntities()) {
         return false;
@@ -343,11 +351,14 @@ void Game::Rescale(const int& scaleFactor)
 ******************************************************************************/
 Entity* Game::AddEntity(const char* name, const float& worldX, const float& worldY)
 {
-    //if (e->Initialize() == false) {
-    //  s_activeObjects.push_back(obj);
-    //  obj->SetPosition(worldX, worldY);
-    //}
     return m_entityManager.AddEntity(name);
+}
+
+/******************************************************************************
+******************************************************************************/
+Entity* Game::SetEntityActive(const char* name, bool active)
+{
+    return m_entityManager.SetEntityActive(name, active);
 }
 
 /******************************************************************************

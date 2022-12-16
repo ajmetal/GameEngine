@@ -74,6 +74,10 @@ void Text::SetString(const char * textString)
         printf("returned surface was null: [%s]\n", TTF_GetError());
         return;
     }
+    if (m_texture != nullptr) {
+        SDL_DestroyTexture(m_texture);
+        m_texture = nullptr;
+    }
     m_texture = SDL_CreateTextureFromSurface(Game::GetInstance().m_renderer, surface);
     if (m_texture == nullptr) {
         printf("returned texture was null: [%s]\n", TTF_GetError());

@@ -41,8 +41,10 @@ public:
     void Quit();
     void Rescale(const int& scaleFactor);
     Entity* AddEntity(const char* name, const float& worldX = 0, const float& worldY = 0);
+    Entity* SetEntityActive(const char* name, bool active = true);
     void ListAllEntities();
     void ListAllComponents();
+    void InitializeScene();
     void StartScene();
     bool LoadImage(const char* key, const char* filename);
     bool LoadSpriteSheet(const char* key, const char* imageFilename, const char* jsonFilename);

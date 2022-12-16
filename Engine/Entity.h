@@ -48,6 +48,9 @@ public:
     void Render();
     void Destroy();
     bool Initialize();
+    bool Start();
+
+    bool SetActive(bool isActive);
    
     bool IsActive() const;
  

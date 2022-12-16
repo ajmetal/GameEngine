@@ -41,6 +41,21 @@ void InputManager::Update(const float& deltaTime)
             //printf("Mouse Position: x: %i, y: %i", m_mouseX, m_mouseY);
             break;
         }
+        case SDL_MOUSEBUTTONDOWN: {
+            SDL_MouseButtonEvent buttonEvent = event.button;
+            if (buttonEvent.button == SDL_BUTTON_LEFT) {
+                m_mouseLeftDown = true;
+            }
+            //m_keyStates[event.button.] = true;
+            break;
+        }
+        case SDL_MOUSEBUTTONUP: {
+            auto button = event.button;
+            if (button.button == SDL_BUTTON_LEFT) {
+                m_mouseLeftDown = false;
+            }
+            break;
+        }
         }
     }
 }

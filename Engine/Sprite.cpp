@@ -12,6 +12,10 @@ Sprite::Sprite(Entity* owner, const char* key, const bool& isFixed)
     , m_isAnimating(false)
     , m_flip(SDL_FLIP_NONE)
     , m_currentAnimation(nullptr)
+    , m_destinationRect({ 0,0,0,0 })
+    , m_sourceRect({ 0,0,0,0 })
+    , m_texture(nullptr)
+    , m_transform(nullptr)
 {}
 
 /******************************************************************************
@@ -22,18 +26,17 @@ Sprite::Sprite(Entity* owner)
     , m_isAnimating(false)
     , m_flip(SDL_FLIP_NONE)
     , m_currentAnimation(nullptr)
+    , m_destinationRect({0,0,0,0})
+    , m_sourceRect({ 0,0,0,0 })
+    , m_texture(nullptr)
+    , m_transform(nullptr)
 {}
 
 /******************************************************************************
 ******************************************************************************/
 void Sprite::Initialize()
 {
-    m_transform = m_owner->GetComponent<Transform>();
     m_texture = Game::GetInstance().GetTexture(m_key);
-    m_sourceRect.x = 0;
-    m_sourceRect.y = 0;
-    m_sourceRect.w = static_cast<int>(m_transform->GetWidth());
-    m_sourceRect.h = static_cast<int>(m_transform->GetHeight());
     rapidjson::Value* data = Game::GetInstance().GetJson(m_key);
     if (data == nullptr) {
         printf("Could not find spritesheet named: [%s]\n", m_key);
@@ -74,6 +77,18 @@ void Sprite::Initialize()
     }
 }
 
+/******************************************************************************
+******************************************************************************/
+void Sprite::Start()
+{
+    m_transform = m_owner->GetComponent<Transform>();
+    m_sourceRect.x = 0;
+    m_sourceRect.y = 0;
+    m_sourceRect.w = static_cast<int>(m_transform->GetWidth());
+    m_sourceRect.h = static_cast<int>(m_transform->GetHeight());
+   
+}
+
 //Sprite* Sprite::AddAnimation(const char* key, const int& numFrames, const int& animationSpeed)
 //{
 //    Animation* anim = new Animation(m_key, key, numFrames, animationSpeed);
@@ -87,7 +102,7 @@ void Sprite::Initialize()
 void Sprite::Play(const std::string& animationName)
 {
     if (m_animations.find(animationName) == m_animations.end()) {
-        printf("animation not found: [%s]\n", animationName);
+        printf("animation not found: [%s]\n", animationName.c_str());
         return;
     }
     m_currentAnimation = m_animations[animationName];

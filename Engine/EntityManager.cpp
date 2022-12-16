@@ -7,7 +7,10 @@
 void EntityManager::Update(const float& deltaTime)
 {
     for (auto& entity : m_entities) {
-        entity->Update(deltaTime);
+        //Entity e = *entity;
+        if (entity->IsActive()) {
+            entity->Update(deltaTime);
+        }
     }
 }
 
@@ -16,7 +19,10 @@ void EntityManager::Update(const float& deltaTime)
 void EntityManager::Render()
 {
     for (auto& entity : m_entities) {
-        entity->Render();
+        //Entity e = *entity;
+        if (entity->IsActive()) {
+            entity->Render();
+        }
     }
 }
 
@@ -66,6 +72,21 @@ Entity* EntityManager::AddEntity(const char* name)
 
 /******************************************************************************
 ******************************************************************************/
+Entity* EntityManager::SetEntityActive(const char* name, bool isActive)
+{
+    Entity* e = nullptr;
+    for (int i = 0; i < m_entities.size(); ++i) {
+        e = m_entities[i];
+        if (e->m_name == name) {
+            e->SetActive(isActive);
+            break;
+        }
+    } 
+    return e;
+}
+
+/******************************************************************************
+******************************************************************************/
 std::vector<Entity*> EntityManager::GetEntities() const
 {
     return m_entities;
@@ -84,6 +105,15 @@ void EntityManager::Initialize()
 {
     for (auto& i : m_entities) {
         i->Initialize();
+    }
+}
+
+/******************************************************************************
+******************************************************************************/
+void EntityManager::Start()
+{
+    for (auto& i : m_entities) {
+        i->Start();
     }
 }
 

@@ -11,6 +11,7 @@ public:
     Text(Entity* owner, const char* fontKey, const char* textString = "", SDL_Color color = {255,255,255,255});
     ~Text() {};
     virtual void Initialize() override;
+    void Start() override {};
     virtual void Update(const float& deltaTime) override;
     virtual void Render() override;
     virtual void Destroy() override;

@@ -9,8 +9,10 @@
 #endif
 
 #include "Game.h"
-#include "TestComponent.h"
+#include "PlayerControl.h"
 #include "Text.h"
+#include "BulletMover.h"
+#include "Image.h"
 
 using namespace std;
 using namespace chrono;
@@ -34,6 +36,8 @@ int main(int argc, char* argv[])
         "assets/images/chopperSheet.json"
     );
 
+    Game::GetInstance().LoadImage("bullet", "assets/images/bullet-friendly.png");
+
     Entity* chopper = Game::GetInstance().AddEntity("chopper");
     chopper->AddComponent<Transform>(WIDTH / 2, HEIGHT / 2, 64, 64, 1);
     Sprite* chopperSprite = chopper->AddComponent<Sprite>("chopper");
@@ -41,13 +45,16 @@ int main(int argc, char* argv[])
     Text * text = chopper->AddComponent<Text>("arial", "CHOPPA!", SDL_Color{255, 255, 255, 255});
     text->SetOffset(-32, -32);
 
+    //Entity* bullet = Game::GetInstance().AddEntity("Bullet");
+    //bullet->AddComponent<Transform>();
+    ////bullet->AddComponent<Image>("bullet");
+    //bullet->AddComponent<BulletMover>();
+
     /*Entity* debugText = Game::GetInstance().AddEntity("debugText");
     debugText->AddComponent<Text>("arial");*/
 
-    //Once StartScene is called, all components/entities/etc will be initialized,
-    //so the "scene" needs to be totally set up before Intitialize is called.
+    Game::GetInstance().InitializeScene();
     Game::GetInstance().StartScene();
-    chopperSprite->Play("chopperDown");
 
     bool quit = false;
     while (!quit)
