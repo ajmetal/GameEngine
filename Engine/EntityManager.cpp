@@ -65,6 +65,10 @@ void EntityManager::ListAllComponents()
 ******************************************************************************/
 Entity* EntityManager::AddEntity(const char* name)
 {
+    //if (std::find(m_entities.begin(), m_entities.end(), name) != m_entities.end()) {
+    //    std::string uniqueName = name;
+    //    uniqueName += uniqueName[]
+    //}
     Entity* e = new Entity(name);
     m_entities.push_back(e);
     return e;

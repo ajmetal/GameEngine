@@ -2,6 +2,8 @@
 #include "PlayerControl.h"
 #include "Text.h"
 #include "Sprite.h"
+#include "Image.h"
+#include "BulletMover.h"
 
 /******************************************************************************
 ******************************************************************************/
@@ -34,6 +36,13 @@ void PlayerControl::Start()
 
 /******************************************************************************
 ******************************************************************************/
+void PlayerControl::SetBulletPool(std::vector<Entity*>& bulletPool)
+{
+    m_bulletPool = bulletPool;
+}
+
+/******************************************************************************
+******************************************************************************/
 void PlayerControl::Update(const float& deltaTime)
 {
     m_velocity.x = m_velocity.y = 0.0f;
@@ -55,14 +64,25 @@ void PlayerControl::Update(const float& deltaTime)
         m_sprite->Play("chopperLeft");
     }
 
-    if (input.GetMouseLeftDown()) {
-        printf("Mouse left click\n");
+    auto ticks = SDL_GetTicks();
+
+    if (input.GetMouseLeftDown() && ticks > m_lastFired + m_fireRate) {
+        m_lastFired = ticks;
+        for (int i = 0; i < m_bulletPool.size(); ++i) {
+            Entity* b = m_bulletPool[i];
+            if (b->IsActive() == false) {
+                glm::vec2 mousePos = { input.GetMouseX(), input.GetMouseY() };
+                glm::vec2 playerPos = m_transform->GetPosition();
+                b->GetComponent<BulletMover>()->Fire(playerPos, mousePos - playerPos, 20);
+                break;
+            }
+        }
     }
 
     if (m_velocity.x == 0.0f && m_velocity.y == 0.0f) {
         return;
     }
-    m_velocity = glm::normalize(m_velocity) * 100.0f * deltaTime;
+    m_velocity = glm::normalize(m_velocity) * m_moveSpeed * deltaTime;
     m_debugText->SetString(string_format("x: %f, y: %f", m_velocity.x, m_velocity.y).c_str());
     m_transform->SetPosition(m_transform->GetPosition() + m_velocity);
 }

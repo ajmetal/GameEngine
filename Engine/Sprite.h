@@ -1,6 +1,5 @@
 #pragma once
 
-#include <SDL.h>
 #include "Transform.h";
 #include "Game.h";
 
@@ -10,10 +9,10 @@ public:
     Sprite(Entity* owner);
     Sprite(Entity* owner, const char* key, const bool& isFixed = false);
 
-    Sprite(Sprite&);
-    Sprite(Sprite&&);
-    void operator=(Sprite&);
-    void operator=(Sprite&&);
+    //Sprite(Sprite&);
+    //Sprite(Sprite&&);
+    //void operator=(Sprite&);
+    //void operator=(Sprite&&);
     ~Sprite();
 
     SDL_RendererFlip m_flip;

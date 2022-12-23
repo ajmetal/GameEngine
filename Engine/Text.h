@@ -2,6 +2,7 @@
 #include "pch.h"
 
 #include <string>
+#include <SDL_ttf.h>
 
 #include "Component.h"
 
