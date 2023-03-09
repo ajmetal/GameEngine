@@ -181,6 +181,7 @@
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="PlayerControl.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Sprite.h" />

@@ -69,6 +69,9 @@ Entity* EntityManager::AddEntity(const char* name)
     //    std::string uniqueName = name;
     //    uniqueName += uniqueName[]
     //}
+    if (m_initializing) {
+        throw std::exception("Cannot add entities during scene initialization has started");
+    }
     Entity* e = new Entity(name);
     m_entities.push_back(e);
     return e;
@@ -107,9 +110,11 @@ unsigned int EntityManager::GetEntityCount()
 ******************************************************************************/
 void EntityManager::Initialize()
 {
+    m_initializing = true;
     for (auto& i : m_entities) {
         i->Initialize();
     }
+    m_initializing = false;
 }
 
 /******************************************************************************

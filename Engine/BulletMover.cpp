@@ -5,9 +5,11 @@
 
 /******************************************************************************
 ******************************************************************************/
-BulletMover::BulletMover(Entity* owner)
+BulletMover::BulletMover(Entity* owner, std::queue<Entity*>& pool)
 	: Component(owner)
 	, m_speed(0)
+	, m_pool(pool)
+	, m_direction(0.0,0.0)
 {}
 
 /******************************************************************************
@@ -31,12 +33,19 @@ void BulletMover::Update(const float& deltaTime)
 	Transform* transform = m_owner->GetComponent<Transform>();
 	transform->SetPosition(transform->GetPosition() + m_direction * m_speed);
 	glm::vec2 position = transform->GetPosition();
-	int w;
-	int h;
+	int w, h;
 	SDL_GetWindowSize(Game::GetInstance().m_window, &w, &h);
 	if (position.x < 0 || position.x > w || position.y < 0 || position.y > h) {
 		m_owner->SetActive(false);
+		m_pool.push(m_owner);
 	}
+}
+
+/******************************************************************************
+******************************************************************************/
+void BulletMover::SetPool(std::queue<Entity*>& pool)
+{
+	m_pool = pool;
 }
 
 /******************************************************************************

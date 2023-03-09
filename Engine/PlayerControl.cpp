@@ -7,20 +7,20 @@
 
 /******************************************************************************
 ******************************************************************************/
-PlayerControl::PlayerControl(Entity* owner)
+PlayerControl::PlayerControl(Entity* owner, std::queue<Entity*>& pool)
     : Component(owner)
     , m_sprite(nullptr)
     , m_transform(nullptr)
     , m_debugText(nullptr)
     , m_acceleration(0.0)
     , m_velocity(0.0)
+    , m_bulletPool(pool)
 {}
 
 /******************************************************************************
 ******************************************************************************/
 void PlayerControl::Initialize()
 {
-
 }
 
 /******************************************************************************
@@ -32,13 +32,6 @@ void PlayerControl::Start()
     m_debugText = m_owner->GetComponent<Text>();
     
     m_sprite->Play("chopperDown");
-}
-
-/******************************************************************************
-******************************************************************************/
-void PlayerControl::SetBulletPool(std::vector<Entity*>& bulletPool)
-{
-    m_bulletPool = bulletPool;
 }
 
 /******************************************************************************
@@ -68,14 +61,13 @@ void PlayerControl::Update(const float& deltaTime)
 
     if (input.GetMouseLeftDown() && ticks > m_lastFired + m_fireRate) {
         m_lastFired = ticks;
-        for (int i = 0; i < m_bulletPool.size(); ++i) {
-            Entity* b = m_bulletPool[i];
-            if (b->IsActive() == false) {
-                glm::vec2 mousePos = { input.GetMouseX(), input.GetMouseY() };
-                glm::vec2 playerPos = m_transform->GetPosition();
-                b->GetComponent<BulletMover>()->Fire(playerPos, mousePos - playerPos, 20);
-                break;
-            }
+        if (m_bulletPool.size() != 0) {
+            Entity* b = m_bulletPool.front();
+            m_bulletPool.pop();
+            glm::vec2 mousePos = { input.GetMouseX(), input.GetMouseY() };
+            glm::vec2 playerPos = m_transform->GetPosition();
+            BulletMover* mover = b->GetComponent<BulletMover>();
+            mover->Fire(playerPos, mousePos - playerPos, 20);
         }
     }
 

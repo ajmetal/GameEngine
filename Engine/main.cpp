@@ -41,16 +41,15 @@ int main(int argc, char* argv[])
     Entity* chopper = Game::GetInstance().AddEntity("chopper");
     chopper->AddComponent<Transform>(WIDTH / 2, HEIGHT / 2, 64, 64, 1);
     Sprite* chopperSprite = chopper->AddComponent<Sprite>("chopper");
-    PlayerControl* controls = chopper->AddComponent<PlayerControl>();
-    std::vector<Entity*> bulletPool;
+    std::queue<Entity*> bulletPool;
+    PlayerControl* controls = chopper->AddComponent<PlayerControl>(bulletPool);
     for (int i = 0; i < 20; i++) {
         Entity* bullet = Game::GetInstance().AddEntity("bullet");
         bullet->AddComponent<Transform>(0, 0, 32, 32, 1);
         bullet->AddComponent<Image>("bullet");
-        bullet->AddComponent<BulletMover>();
-        bulletPool.push_back(bullet);
+        bullet->AddComponent<BulletMover>(bulletPool);
+        bulletPool.push(bullet);
     }
-    controls->SetBulletPool(bulletPool);
 
     Text * text = chopper->AddComponent<Text>("arial", "CHOPPA!", SDL_Color{255, 255, 255, 255});
     text->SetOffset(-32, -32);
