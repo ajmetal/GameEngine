@@ -3,7 +3,6 @@
 #include <iostream>
 #include <vector>
 #include <chrono>
-#include "glm/glm.hpp"
 #include "document.h"
 #include <SDL_ttf.h>
 

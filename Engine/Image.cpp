@@ -11,9 +11,7 @@ Image::Image(Entity* owner, const char* key)
 	, m_texture(nullptr)
 	, m_transform(nullptr)
     , m_flip(SDL_FLIP_NONE)
-{
-
-}
+{ }
 
 /******************************************************************************
 ******************************************************************************/
@@ -31,7 +29,7 @@ void Image::Start()
 ******************************************************************************/
 void Image::Update(const float& deltaTime)
 {
-    glm::vec2 position = m_transform->GetPosition();
+    Vector2 position = m_transform->GetPosition();
     m_destinationRect.x = static_cast<int>(position.x);
     m_destinationRect.y = static_cast<int>(position.y);
     int scale = static_cast<int>(m_transform->GetScale());
@@ -49,11 +47,7 @@ void Image::Render()
         m_texture,
         &m_sourceRect,
         &m_destinationRect,
-#if 1
         m_angle,
-#else
-        0.0f,
-#endif
         NULL,
         m_flip))
     {

@@ -25,8 +25,8 @@ public:
 private:
     Transform* m_transform;
     Sprite* m_sprite;
-    glm::vec2 m_velocity;
-    glm::vec2 m_acceleration;
+    Vector2 m_velocity;
+    Vector2 m_acceleration;
     Text* m_debugText;
     std::queue<Entity*>& m_bulletPool;
     int m_lastFired = 0;

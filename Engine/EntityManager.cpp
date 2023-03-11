@@ -88,7 +88,7 @@ Entity* EntityManager::SetEntityActive(const char* name, bool isActive)
             e->SetActive(isActive);
             break;
         }
-    } 
+    }
     return e;
 }
 

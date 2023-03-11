@@ -14,7 +14,7 @@ Transform::Transform(
     float s
 )
     : Component(owner)
-    , m_position(glm::vec2(posX, posY))
+    , m_position(Vector2(posX, posY))
     , m_width(w)
     , m_height(h)
     , m_scale(s)
@@ -23,7 +23,7 @@ Transform::Transform(
 
 /******************************************************************************
 ******************************************************************************/
-glm::vec2 Transform::SetPosition(const glm::vec2& newPos)
+Vector2 Transform::SetPosition(const Vector2& newPos)
 {
     m_position = newPos;
     return m_position;

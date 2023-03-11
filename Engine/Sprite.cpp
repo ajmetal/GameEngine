@@ -134,7 +134,7 @@ void Sprite::Update(const float& deltaTime)
         }
     }
 
-    glm::vec2 position = m_transform->GetPosition();
+    Vector2 position = m_transform->GetPosition();
     m_destinationRect.x = static_cast<int>(position.x);
     m_destinationRect.y = static_cast<int>(position.y);
     int scale = static_cast<int>(m_transform->GetScale());
@@ -152,11 +152,7 @@ void Sprite::Render()
         m_texture,
         &m_sourceRect,
         &m_destinationRect,
-#if 1
         m_angle,
-#else
-        0.0f,
-#endif
         NULL,
         m_flip))
     {

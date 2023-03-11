@@ -5,7 +5,7 @@
 #include "Game.h"
 #include "EntityManager.h"
 #include "Component.h"
-#include "glm/glm.hpp"
+#include "Vector2.h"
 #include <string>
 
 class Transform : public Component
@@ -24,9 +24,9 @@ public:
     inline float GetWidth() { return m_width; }
     inline float GetHeight() { return m_height; }
     inline float GetScale() { return m_scale; }
-    inline glm::vec2 GetPosition() { return m_position; }
+    inline Vector2 GetPosition() { return m_position; }
     inline float GetRotation() { return m_rotation; }
-    glm::vec2 SetPosition(const glm::vec2& newPos);
+    Vector2 SetPosition(const Vector2& newPos);
     float SetRotation(float newRotation);
 
     void Initialize() override {};
@@ -39,7 +39,7 @@ public:
     std::string ToString() override;
     ~Transform();
 private:
-    glm::vec2 m_position;
+    Vector2 m_position;
     float m_width;
     float m_height;
     float m_scale;

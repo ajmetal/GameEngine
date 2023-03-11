@@ -5,6 +5,7 @@
 #include <SDL_ttf.h>
 
 #include "Component.h"
+#include "Vector2.h"
 
 class Text : public Component
 {
@@ -18,7 +19,6 @@ public:
     virtual void Destroy() override;
     virtual std::string ToString() override;
     void SetString(const char *);
-
     void SetOffset(float x, float y);
 
 private:
@@ -28,6 +28,6 @@ private:
     SDL_Color m_color;
     SDL_Rect m_rect;
     SDL_Texture* m_texture;
-    glm::vec2 m_offset;
+    Vector2 m_offset;
 };
 

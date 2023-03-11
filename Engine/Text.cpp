@@ -12,7 +12,7 @@ Text::Text(Entity* owner, const char* fontKey, const char* textString, SDL_Color
     , m_ttfFont(nullptr)
     , m_rect({0,0,0,0})
     , m_texture(nullptr)
-    , m_offset(0.0)
+    , m_offset({0.0f, 0.0f})
 { }
 
 /******************************************************************************

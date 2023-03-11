@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Component.h"
 #include "Transform.h"
+#include "Vector2.h"
 #include <queue>
 
 class BulletMover : public Component
@@ -15,11 +16,11 @@ public:
     void Destroy() override {};
     std::string ToString() override { return ""; };
 
-    void Fire(glm::vec2 position, glm::vec2 direction, float speed);
+    void Fire(Vector2 position, Vector2 direction, float speed);
 
 private:
     float m_speed;
-    glm::vec2 m_direction;
+    Vector2 m_direction;
     std::queue<Entity*>& m_pool;
 };
 

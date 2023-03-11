@@ -12,7 +12,7 @@ PlayerControl::PlayerControl(Entity* owner, std::queue<Entity*>& pool)
     , m_sprite(nullptr)
     , m_transform(nullptr)
     , m_debugText(nullptr)
-    , m_acceleration(0.0f)
+    , m_acceleration({0.0f, 0.0f})
     , m_velocity({0.0f, 0.0f})
     , m_bulletPool(pool)
 {}
@@ -65,20 +65,13 @@ void PlayerControl::Update(const float& deltaTime)
         if (m_bulletPool.size() != 0) {
             Entity* b = m_bulletPool.front();
             m_bulletPool.pop();
-            glm::vec2 mousePos = { input.GetMouseX(), input.GetMouseY() };
-            glm::vec2 playerPos = m_transform->GetPosition();
+            Vector2 mousePos = { (float)input.GetMouseX(), (float)input.GetMouseY() };
+            Vector2 playerPos = m_transform->GetPosition();
             BulletMover* mover = b->GetComponent<BulletMover>();
             mover->Fire(playerPos, mousePos - playerPos, 20);
         }
     }
-
-    if (m_velocity.x != 0.0f || m_velocity.y != 0.0f) {
-        // attempting to normalize the zero vector will return nan for some
-        // fucking reason.
-        //TODO: replace glm
-        m_velocity = glm::normalize(m_velocity);
-    }
-    m_velocity *= m_moveSpeed * deltaTime;
+    m_velocity = m_velocity.Normalized() * m_moveSpeed * deltaTime;
     m_debugText->SetString(string_format("rotation: %f", m_transform->GetRotation()).c_str());
     m_transform->SetPosition(m_transform->GetPosition() + m_velocity);
 }
