@@ -12,8 +12,8 @@ PlayerControl::PlayerControl(Entity* owner, std::queue<Entity*>& pool)
     , m_sprite(nullptr)
     , m_transform(nullptr)
     , m_debugText(nullptr)
-    , m_acceleration(0.0)
-    , m_velocity(0.0)
+    , m_acceleration(0.0f)
+    , m_velocity({0.0f, 0.0f})
     , m_bulletPool(pool)
 {}
 
@@ -38,6 +38,7 @@ void PlayerControl::Start()
 ******************************************************************************/
 void PlayerControl::Update(const float& deltaTime)
 {
+    m_transform->SetRotation(m_transform->GetRotation() + 1.0f);
     m_velocity.x = m_velocity.y = 0.0f;
     InputManager input = Game::GetInstance().m_inputManager;
     if (input.GetKeyState(SDL_SCANCODE_W)) {
@@ -71,11 +72,14 @@ void PlayerControl::Update(const float& deltaTime)
         }
     }
 
-    if (m_velocity.x == 0.0f && m_velocity.y == 0.0f) {
-        return;
+    if (m_velocity.x != 0.0f || m_velocity.y != 0.0f) {
+        // attempting to normalize the zero vector will return nan for some
+        // fucking reason.
+        //TODO: replace glm
+        m_velocity = glm::normalize(m_velocity);
     }
-    m_velocity = glm::normalize(m_velocity) * m_moveSpeed * deltaTime;
-    m_debugText->SetString(string_format("x: %f, y: %f", m_velocity.x, m_velocity.y).c_str());
+    m_velocity *= m_moveSpeed * deltaTime;
+    m_debugText->SetString(string_format("rotation: %f", m_transform->GetRotation()).c_str());
     m_transform->SetPosition(m_transform->GetPosition() + m_velocity);
 }
 

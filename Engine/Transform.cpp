@@ -1,10 +1,14 @@
 #include "pch.h"
 #include "Transform.h"
+#include <math.h>
 
+/******************************************************************************
+******************************************************************************/
 Transform::Transform(
     Entity* owner,
     float posX,
     float posY,
+    float rotation,
     float w,
     float h,
     float s
@@ -14,14 +18,34 @@ Transform::Transform(
     , m_width(w)
     , m_height(h)
     , m_scale(s)
+    , m_rotation(rotation)
 {}
 
+/******************************************************************************
+******************************************************************************/
 glm::vec2 Transform::SetPosition(const glm::vec2& newPos)
 {
     m_position = newPos;
     return m_position;
 }
 
+/******************************************************************************
+******************************************************************************/
+float Transform::SetRotation(float newRotation)
+{
+    if (newRotation < 0.0f) {
+        newRotation += 360;
+    }
+    else if (newRotation > 360)
+    {
+        newRotation -= 360;
+    }
+    m_rotation = newRotation;
+    return m_rotation;
+}
+
+/******************************************************************************
+******************************************************************************/
 std::string Transform::ToString()
 {
     char buffer[256];
@@ -39,6 +63,8 @@ std::string Transform::ToString()
     return buffer;
 }
 
+/******************************************************************************
+******************************************************************************/
 Transform::~Transform()
 {
 }

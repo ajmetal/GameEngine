@@ -21,5 +21,6 @@ private:
     SDL_Rect m_sourceRect;
     SDL_Rect m_destinationRect;
     const char* m_key;
+    float m_angle;
 };
 

@@ -14,7 +14,6 @@ public:
     void Render() override {};
     void Destroy() override {};
     std::string ToString() override { return ""; };
-    void SetPool(std::queue<Entity*>& pool);
 
     void Fire(glm::vec2 position, glm::vec2 direction, float speed);
 

@@ -14,6 +14,7 @@ Sprite::Sprite(Entity* owner, const char* key, const bool& isFixed)
     , m_currentAnimation(nullptr)
     , m_destinationRect({ 0,0,0,0 })
     , m_sourceRect({ 0,0,0,0 })
+    , m_angle(0.0f)
     , m_texture(nullptr)
     , m_transform(nullptr)
 {}
@@ -28,6 +29,7 @@ Sprite::Sprite(Entity* owner)
     , m_currentAnimation(nullptr)
     , m_destinationRect({0,0,0,0})
     , m_sourceRect({ 0,0,0,0 })
+    , m_angle(0.0f)
     , m_texture(nullptr)
     , m_transform(nullptr)
 {}
@@ -138,6 +140,7 @@ void Sprite::Update(const float& deltaTime)
     int scale = static_cast<int>(m_transform->GetScale());
     m_destinationRect.w = static_cast<int>(m_transform->GetWidth() * scale);
     m_destinationRect.h = static_cast<int>(m_transform->GetHeight() * scale);
+    m_angle = m_transform->GetRotation();
 }
 
 /******************************************************************************
@@ -149,7 +152,11 @@ void Sprite::Render()
         m_texture,
         &m_sourceRect,
         &m_destinationRect,
-        0.0,
+#if 1
+        m_angle,
+#else
+        0.0f,
+#endif
         NULL,
         m_flip))
     {

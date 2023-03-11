@@ -39,6 +39,7 @@ private:
     };
 
     Transform* m_transform;
+    float m_angle;
     SDL_Texture* m_texture;
     SDL_Rect m_sourceRect;
     SDL_Rect m_destinationRect;

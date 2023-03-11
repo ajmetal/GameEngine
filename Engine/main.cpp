@@ -37,19 +37,24 @@ int main(int argc, char* argv[])
     );
 
     Game::GetInstance().LoadImage("bullet", "assets/images/bullet-friendly.png");
+    Game::GetInstance().LoadImage("tank", "assets/images/tank-big-down.png");
 
     Entity* chopper = Game::GetInstance().AddEntity("chopper");
-    chopper->AddComponent<Transform>(WIDTH / 2, HEIGHT / 2, 64, 64, 1);
+    chopper->AddComponent<Transform>(WIDTH / 2, HEIGHT / 2, 0.0, 64, 64, 1);
     Sprite* chopperSprite = chopper->AddComponent<Sprite>("chopper");
     std::queue<Entity*> bulletPool;
     PlayerControl* controls = chopper->AddComponent<PlayerControl>(bulletPool);
     for (int i = 0; i < 20; i++) {
         Entity* bullet = Game::GetInstance().AddEntity("bullet");
-        bullet->AddComponent<Transform>(0, 0, 32, 32, 1);
+        bullet->AddComponent<Transform>(0, 0, 0.0, 32, 32, 1);
         bullet->AddComponent<Image>("bullet");
         bullet->AddComponent<BulletMover>(bulletPool);
         bulletPool.push(bullet);
     }
+
+    Entity* tank = Game::GetInstance().AddEntity("tank");
+    tank->AddComponent<Image>("tank");
+    tank->AddComponent<Transform>((WIDTH / 2) + 100, (HEIGHT / 2) + 100, 0.0, 64, 64, 1);
 
     Text * text = chopper->AddComponent<Text>("arial", "CHOPPA!", SDL_Color{255, 255, 255, 255});
     text->SetOffset(-32, -32);
